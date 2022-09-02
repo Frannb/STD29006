@@ -1,0 +1,67 @@
+version: '3.8'
+  
+services:
+  # Contêiner com RabbitMQ, onde será criado as filas 
+  rabbitMQ:
+    image: rabbitmq:3-management
+    container_name: rabbitMQ
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - redeSTD
+    
+  # Contêiner com o auditor 
+  auditor:
+    build: Auditor
+    container_name: auditor
+    depends_on:
+      - rabbitMQ
+    volumes:
+      - ./Auditor:/auditor
+    networks:
+      - redeSTD
+    # environment:
+    #   - RABBITMQ_HOST=rabbitMQ
+    #   - RABBITMQ_USERNAME=guest
+    #   - RABBITMQ_PASSWORD=guest
+    #   - RABBITMQ_PORT=5672
+
+  # Contêiner com o primeiro jogador  
+  jogador1:
+    build: Jogador1
+    container_name: jogador1
+    depends_on:
+      - rabbitMQ
+      - auditor
+    volumes:
+      - ./Jogador1:/jogador1
+    networks:
+      - redeSTD
+    # environment:
+    #   - RABBITMQ_HOST=rabbitMQ
+    #   - RABBITMQ_USERNAME=guest
+    #   - RABBITMQ_PASSWORD=guest
+    #   - RABBITMQ_PORT=5672
+
+  # Contêiner com o segundo jogador   
+  jogador2:
+    build: Jogador2
+    container_name: jogador2
+    depends_on:
+      - rabbitMQ
+      - auditor
+    volumes:
+      - ./Jogador2:/jogador2
+    networks:
+      - redeSTD
+    # environment:
+    #   - RABBITMQ_HOST=rabbitMQ
+    #   - RABBITMQ_USERNAME=guest
+    #   - RABBITMQ_PASSWORD=guest
+    #   - RABBITMQ_PORT=5672
+
+networks:
+  redeSTD:
+    driver: bridge
+    

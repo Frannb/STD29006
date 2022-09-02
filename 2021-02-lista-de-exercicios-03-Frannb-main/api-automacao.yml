@@ -1,0 +1,886 @@
+openapi: '3.0.2'
+info:
+  title: Sistema de Automação Residencial
+  version: '1.0'
+servers:
+  - url: https://localhost/v1/
+paths:
+#-------------------Lampada-------------------#
+  /lampadas:
+    get:
+      summary: Exibe todas as lampadas
+      description: Mostra todas as lampadas existentes
+      operationId: get-lampada
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  -
+                    id: 1
+                    status: true 
+                  -
+                    id: 2
+                    status: false
+ 
+        "400":
+          description: Erro ao exibir todas as lampadas
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /lampada/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma lampada em especifico
+      description: Mostra o conteudo de apenas uma lampada solicitada
+      operationId: get-id-lampada
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example:
+                    status: false
+        "400":
+          description: Erro ao exibir lampada especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza lampada especifica
+      description: Atualiza o conteudo de uma lampda em especifico (ligado/desligado)
+      operationId: put-id-lampada
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #DESLIGADO: false | LIGADO: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir lampada especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------TV-------------------#
+  /televisoes:
+    get:
+      summary: Exibe todas as televisões
+      description: Mostra todas as televisões existentes
+      operationId: get-tvs
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  -
+                    id: 1
+                    status: false
+                    volume: 0
+                    canal: 0
+                  -
+                    id: 2
+                    status: false
+                    volume: 0
+                    canal: 0
+        "400":
+          description: Erro ao exibir todas as televisões
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /televisao/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma tv em especifico
+      description: Mostra o conteudo de uma tv solicitada em especifico
+      operationId: get-id-tv
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                    status: false
+                    volume: 0
+                    canal: 0
+        "400":
+          description: Erro ao exibir tv especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza uma tv especifica
+      description: Atualiza o conteudo tv e especifico
+      operationId: put-id-tv
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #DESLIGADO: false | LIGADO: true
+                volume: 0
+                canal: 0
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir tv especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Som-------------------#
+  /sons:
+    get:
+      summary: Exibe todas os sons
+      description: Mostra o total de sons existentes
+      operationId: get-sons
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  - 
+                    id: 1
+                    status: false #DESLIGADO: false | LIGADO: true
+                    volume: 1
+                    modo: 0 #Radio: 0 | USB: 1 | CD: 2 | Bluetooth: 3
+                  - 
+                    id: 2
+                    status: false #DESLIGADO: false | LIGADO: true
+                    volume: 1
+                    modo: 0 #Radio: 0 | USB: 1 | CD: 2 | Bluetooth: 3
+        
+        "400":
+          description: Erro ao exibir todas as sons
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /som/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma som em especifico
+      description: Mostra o conteudo de um som solicitado
+      operationId: get-id-som
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                example:
+                    status: false #DESLIGADO: false | LIGADO: true
+                    volume: 1
+                    modo: 0 #Radio: 0 | USB: 1 | CD: 2 | Bluetooth: 3
+        "400":
+          description: Erro ao exibir som especifico
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza som especifico
+      description: Atualiza o conteudo som
+      operationId: put-id-som
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #DESLIGADO: false | LIGADO: true
+                volume: 1
+                modo: 0 #Radio: 0 | USB: 1 | CD: 2 | Bluetooth: 3
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir som especifico
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Ar-condicionado-------------------#
+  /ar-condicionados:
+    get:
+      summary: Exibe todas os ar-condicionados
+      description: Mostra todos os ar-condicionados existentes
+      operationId: get-arcondicionados
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  -
+                    id: 1
+                    status: false #DESLIGADO: false | LIGADO: true
+                    temperatura: 0
+                    modo: 0 #AUTO: 0 | DRY: 1 | FAN: 2 | COOL: 3 | HEAT: 4
+                  -
+                    id: 2
+                    status: false #DESLIGADO: false | LIGADO: true
+                    temperatura: 0
+                    modo: 0 #AUTO: 0 | DRY: 1 | FAN: 2 | COOL: 3 | HEAT: 4
+        "400":
+          description: Erro ao exibir todas os ar-condicionados
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /ar-condicionado/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma ar-condicionado em especifico
+      description: Mostra o conteudo de um ar-condicionado solicitado
+      operationId: get-id-ar-condicionado
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                example:
+                  id: 1
+                  status: false #DESLIGADO: false | LIGADO: true
+                  temperatura: 0
+                  modo: 0 #AUTO: 0 | DRY: 1 | FAN: 2 | COOL: 3 | HEAT: 4
+        "400":
+          description: Erro ao exibir ar-condicionado especifico
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza ar-condicionado especifico
+      description: Atualiza o conteudo ar-condicionado
+      operationId: put-id-ar-condicionado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #DESLIGADO: false | LIGADO: true
+                temperatura: 0
+                modo: 0 #AUTO: 0 | DRY: 1 | FAN: 2 | COOL: 3 | HEAT: 4
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir ar-condicionado especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Contina-------------------#
+  /continas:
+    get:
+      summary: Exibe todas as cortinas
+      description: Mostra todas as cortinas existentes
+      operationId: get-cortinas
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  -
+                    id: 1
+                    status: false #FECHADO: false | ABERTO: true
+                  -
+                    id: 2
+                    status: false #FECHADO: false | ABERTO: true
+        "400":
+          description: Erro ao exibir todas as cortinas
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /cortina/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma cortina em especifico
+      description: Mostra o conteudo de uma cortina solicitada
+      operationId: get-id-cortina
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                example:
+                    status: false #FECHADO: false | ABERTO: true
+        "400":
+          description: Erro ao exibir cortina especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza cortina especifica
+      description: Atualiza o conteudo cortina (aberto/fechado)
+      operationId: put-id-cortina
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #FECHADO: false | ABERTO: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir cortina especifica
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Portões-------------------#
+  /portoes:
+    get:
+      summary: Exibe todos os portões
+      description: Mostra todos os portões existentes
+      operationId: get-portoes
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  -
+                    id: 1
+                    status: false #FECHADO: false | ABERTO: true
+                  -
+                    id: 2
+                    status: false #FECHADO: false | ABERTO: true
+        "400":
+          description: Erro ao exibir todas as portões
+          content:
+            text/html:
+              schema:
+                example: "Objetos não encontrados"
+  
+  /portao/{id}:
+    parameters:
+       - $ref: "#/components/parameters/id"
+    get:
+      summary: Exibe uma portão em especifico
+      description: Mostra o conteudo de uma portão solicitada
+      operationId: get-id-portao
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                example:
+                    status: false #FECHADO: false | ABERTO: true
+        "400":
+          description: Erro ao exibir portão especifico
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+    put:
+      summary: Atualiza portão especifico
+      description: Atualiza o conteudo portão (aberto/fechado)
+      operationId: put-id-portao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                status: false #FECHADO: false | ABERTO: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao exibir portão especifico
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Ambiente-------------------#
+  /ambiente:
+    get:
+      summary: Exibe todos os ambientes
+      description: Mostra todos os ambientes existentes
+      operationId: get-ambientes
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                    ambientes:
+                      sala
+                      cozinha
+
+    post:
+      summary: Cria um ambiente
+      description: Cria um ambiente
+      operationId: post-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              example:
+                  nome: sala
+      responses:
+        "201":
+          description: "CREATED"
+        "400":
+          description: Erro ao criar ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não criado"
+    delete:
+        summary: Deleta um ambientes especifico
+        description: Deleta um ambiente
+        operationId: delete-ambientes
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                example:
+                  nome: "sala"
+        responses:
+          "200":
+            description: "OK"
+          "400":
+            description: Erro ao deletar ambiente
+            content:
+              text/html:
+                schema:
+                  example: "Objeto não deletado"
+
+  /ambiente/{nome_ambiente}:
+    parameters:
+       - $ref: "#/components/parameters/nome-ambiente"
+    post:
+      summary: Adiciona dispositivo ao ambiente
+      description: Adiciona varios dispositivo ao ambiente 
+      operationId: post-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              example:
+                  sala:
+                    lampada:
+                      id: 1
+                      status: false
+                    televisao:
+                      id: 1
+                      status: false
+                      volume: 0
+                      canal: 0
+      responses:
+        "201":
+          description: "CREATED"
+        "400":
+          description: Erro ao criar ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não criado"
+    get:
+      summary: Exibe ambientes especifico
+      description: Mostra o ambientes existentes
+      operationId: get-ambiente
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  lampada:
+                    id: 1
+                    status: false
+                  televisao:
+                    id: 1
+                    status: false
+                    volume: 0
+                    canal: 0
+        "400":
+          description: Erro exibir ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+  /ambientes/{nome_ambientes}/{dispositivo}:
+    parameters:
+        - $ref: "#/components/parameters/nome-cenario"
+        - $ref: "#/components/parameters/nome-dispositivo"
+    get:
+      summary: Exibe ambientes especifico
+      description: Mostra o ambientes existentes
+      operationId: get-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                    sala:
+                      lampada:
+                        id: 1
+                        status: false
+        "400":
+          description: Erro exibir ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+    delete:
+      summary: Deleta um objeto de um ambiente especifico
+      description: Deleta um objeto de um ambiente
+      operationId: delete-obejto-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                  id: 1
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao deletar objeto de um ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não deletado"
+    put:
+      summary: Atualiza lampada especifica
+      description: Atualiza lampada de desligada para ligada
+      operationId: put-id-portao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                  id: 1
+                  status: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao atualizar conteudo
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+
+#-------------------Cenários-------------------#
+  /cenario:
+      get:
+        summary: Exibe todos os cenarios
+        description: Mostra todos os cenarios existentes
+        operationId: get-cenarios
+        responses:
+          "200":
+            description: "OK"
+            content:
+              application/json:
+                schema:
+                  type: array
+                  example:
+                    cenarios:
+                      Fim de semana
+                      Amanhecer
+      post:
+        summary: Cria um cenario
+        description: Cria um cenario
+        operationId: post-cenario
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: string
+                example:
+                    nome: "Amanhecer"
+        responses:
+          "201":
+            description: "CREATED"
+          "400":
+            description: Erro ao criar cenario
+            content:
+              text/html:
+                schema:
+                  example: "Objeto não criado"
+      delete:
+          summary: Deleta um cenario especifico
+          description: Deleta um cenario
+          operationId: delete-cenario
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: string
+                  example:
+                    nome: "Amanhecer"
+          responses:
+            "200":
+              description: "OK"
+            "400":
+              description: Erro ao deletar ambiente
+              content:
+                text/html:
+                  schema:
+                    example: "Objeto não deletado"
+
+  /cenario/{nome_cenario}:
+    parameters:
+        - $ref: "#/components/parameters/nome-cenario"
+    post:
+      summary: Adiciona dispositivo ao cenario
+      description: Adiciona varios dispositivo ao cenario 
+      operationId: post-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              example:
+                  sala:
+                    lampada:
+                      id: 1
+                      status: false
+                    televisao:
+                      id: 1
+                      status: false
+                      volume: 0
+                      canal: 0
+      responses:
+        "201":
+          description: "CREATED"
+        "400":
+          description: Erro ao criar ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não criado"
+    get:
+      summary: Exibe ambientes especifico
+      description: Mostra o ambientes existentes
+      operationId: get-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                nome: "amanhecer"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  lampada:
+                    -
+                      id: 1
+                      status: true 
+                    -
+                      id: 2
+                      status: false
+                  televisao:
+                      id: 1
+                      status: false
+                      volume: 0
+                      canal: 0
+        "400":
+          description: Erro exibir ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+  /cenario/{nome_cenario}/{dispositivo}:
+    parameters:
+        - $ref: "#/components/parameters/nome-cenario"
+        - $ref: "#/components/parameters/nome-dispositivo"
+    get:
+      summary: Exibe dispositivos existentes no cenario
+      description: Mostra dispositivos existentes no cenario
+      operationId: get-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                id: 1
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  lampada:
+                    id: 1
+                    status: false
+        "400":
+          description: Erro exibir ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+    delete:
+      summary: Deleta um objeto de um ambiente especifico
+      description: Deleta um objeto de um ambiente
+      operationId: delete-obejto-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                  id: 1
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao deletar objeto de um ambiente
+          content:
+            text/html:
+              schema:
+                example: "Objeto não deletado"
+    put:
+      summary: Atualiza lampada especifica
+      description: Atualiza lampada de desligada para ligada
+      operationId: put-id-portao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                  id: 1
+                  status: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: Erro ao atualizar conteudo
+          content:
+            text/html:
+              schema:
+                example: "Objeto não encontrado"
+
+#-------------------Componentes-------------------#
+components:
+  parameters:
+    id:
+      description: Parametros id
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+    nome-ambiente:
+      description: Nome do ambiente
+      name: nome-ambiente
+      in: path
+      required: true
+      schema:
+        type: string
+        example: sala
+    nome-cenario:
+      description: Nome do cenário
+      name: nome-cenario
+      in: path
+      required: true
+      schema:
+        type: string
+        example: Fim de semana
+    nome-dispositivo:
+      description: Nome do dispositivo
+      name: nome-dispositivo
+      in: path
+      required: true
+      schema:
+        type: string
+        example: lampada
